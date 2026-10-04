@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Customs — Resolved Board</title>
+<style>
+  :root {
+    --void: #07070a; --hull: #101015; --panel: #15151c; --line: #2a2a35; --text: #e9e6e6; --muted: #9b97a0;
+    --sith: #e0182d; --sith-hot: #ff3b4e; --ok: #3fd68f;
+    --glow: 0 0 6px rgba(255, 40, 60, .85), 0 0 18px rgba(224, 24, 45, .55);
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.55 var(--sans); color: var(--text);
+    background: radial-gradient(1200px 500px at 50% -200px, rgba(224, 24, 45, .16), transparent 70%), var(--void); }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 30px 24px 60px; }
+  header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  .helmet { width: 52px; height: 52px; filter: drop-shadow(0 0 10px rgba(224, 24, 45, .45)); }
+  h1 { margin: 0; font-size: 24px; letter-spacing: .14em; text-transform: uppercase; }
+  h1 span { color: var(--sith-hot); text-shadow: var(--glow); }
+  .sub { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+  .saber { height: 2px; margin: 18px 0 26px; border-radius: 2px; box-shadow: var(--glow);
+    background: linear-gradient(90deg, transparent, var(--sith) 15%, #fff 50%, var(--sith) 85%, transparent); }
+  .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 30px; }
+  .stat { background: var(--hull); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .stat span { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .stat b { font: 700 22px var(--mono); }
+  .stat b.ok { color: var(--ok); }
+  figure { margin: 0 0 34px; background: var(--hull); border: 1px solid var(--line); border-left: 3px solid var(--ok);
+    border-radius: 12px; overflow: hidden; }
+  figcaption { padding: 14px 18px; display: grid; gap: 4px; border-bottom: 1px solid var(--line); }
+  figcaption h2 { margin: 0; font-size: 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .chip { font: 700 10.5px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ok);
+    border: 1px solid rgba(63, 214, 143, .45); background: rgba(63, 214, 143, .08); padding: 4px 9px; border-radius: 999px; }
+  figcaption p { margin: 0; color: var(--muted); font-size: 13.5px; }
+  figcaption code { font: 12px var(--mono); color: #ffd6da; }
+  img { display: block; width: 100%; height: auto; background: #000; }
+  footer { color: var(--muted); font-size: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
+  @media (max-width: 720px) { .summary { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="helmet" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 7C33 7 24 17 22 33L20 47C19 50 18 52 16 55 10 63 6 70 4 77 8 83 13 88 18 92 20 84 24 78 31 73L38 92 50 98 62 92 69 73C76 78 80 84 82 92 87 88 92 83 96 77 94 70 90 63 84 55 82 52 81 50 80 47L78 33C76 17 67 7 50 7Z" fill="#111" stroke="#e0182d" stroke-width="1.5"/>
+      <path d="M31 53C37 50 43 51 47 56L44 61C39 60 34 59 31 57ZM69 53C63 50 57 51 53 56L56 61C61 60 66 59 69 57Z" fill="#ff3b4e"/>
+      <path d="M50 64 39 80H61Z" fill="#000" stroke="#999" stroke-width="1"/>
+    </svg>
+    <div>
+      <h1>Resolved <span>Board</span></h1>
+      <p class="sub">Campus Customs Sith Ops dashboard after the final run · desk date 2026-08-31</p>
+    </div>
+  </header>
+  <div class="saber" aria-hidden="true"></div>
+
+  <div class="summary">
+    <div class="stat"><span>Tickets resolved</span><b class="ok">3 / 3</b></div>
+    <div class="stat"><span>Starting checking</span><b>$3,400.00</b></div>
+    <div class="stat"><span>Paid out (2 approvals)</span><b>−$3,240.00</b></div>
+    <div class="stat"><span>Ending checking</span><b>$160.00</b></div>
+  </div>
+
+  <figure>
+    <figcaption>
+      <h2>Ticket 101 · Bulldog tee <span class="chip">Resolved</span></h2>
+      <p>Boss → Inventory → Accounting, then Boss → Customer Service (exactly the Expected path). Size S out of stock; customer draft (not sent) asks about M/L/XL. No payment. 1 human sign-off. Run <code>946022311ab6</code>.</p>
+    </figcaption>
+    <img src="resolved_board_images/ticket_101.jpg" alt="Dashboard with ticket 101 selected, showing Resolved status, 1 human action signed off, and the delegation flow Boss to Inventory to Accounting and Boss to Customer Service" width="800" height="600">
+  </figure>
+
+  <figure>
+    <figcaption>
+      <h2>Ticket 102 · Rent due <span class="chip">Resolved</span></h2>
+      <p>Boss → Facilities, Boss → Accounting. Notice verified against lease 1 (landlord and due date; no amount stated). Human approved invoice 501 ($840) and rent ($2,400) via MCP <code>record_payment</code>; checking $3,400 → $2,560 → $160. Run <code>bc4dbef543fe</code>.</p>
+    </figcaption>
+    <img src="resolved_board_images/ticket_102.jpg" alt="Dashboard with ticket 102 selected, showing Resolved status, checking balance $160, and the delegation flow Boss to Facilities and Accounting" width="800" height="600">
+  </figure>
+
+  <figure>
+    <figcaption>
+      <h2>Ticket 103 · Bulk hoodie discount <span class="chip">Resolved</span></h2>
+      <p>Boss → Inventory, Boss → Accounting, Boss → Customer Service. 8 of 20 in stock; no discount invented, $58 list price kept ($22 floor). Customer draft (not sent). 2 human sign-offs (pricing decision and draft). Run <code>5002818301a0</code>.</p>
+    </figcaption>
+    <img src="resolved_board_images/ticket_103.jpg" alt="Dashboard with ticket 103 selected, showing all three tickets Resolved, 2 human actions signed off, and the delegation flow Boss to Inventory, Accounting and Customer Service" width="800" height="600">
+  </figure>
+
+  <footer>
+    Screenshots were taken from the live React dashboard (<code>frontend/</code>, <code>npm run dev</code>) connected to the FastAPI backend (<code>uvicorn main:app --reload --port 8000</code>). Ticket status comes from the backend. Details are in <code>resolved_tickets.json</code> and the Actual sections of <code>desk_tickets.html</code>.
+  </footer>
+</div>
+</body>
+</html>

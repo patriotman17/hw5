@@ -1,0 +1,267 @@
+{
+  "problem": 4,
+  "description": "MCP smoke test of the campus-customs server tools, each output verified against data/campus_customs_new.db",
+  "mcp_server": "campus-customs",
+  "database": "data/campus_customs_new.db",
+  "desk_date": "2026-08-31",
+  "run_date": "2026-10-03",
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "tests": [
+    {
+      "test_id": 1,
+      "tool": "check_order_fulfillment",
+      "test_prompt": "Ticket 101: can we fill Tauhid Zaman's order for 1 Classic Bulldog Tee in size S from stock? Include the linked vendor invoice.",
+      "arguments": {
+        "ticket_id": 101
+      },
+      "actual_output": {
+        "desk_date": "2026-08-31",
+        "ticket": {
+          "id": 101,
+          "type": "customer_order",
+          "requester": "Tauhid Zaman",
+          "subject": "Bulldog tee",
+          "sku": "CC-TEE-WHITE",
+          "size": "S",
+          "qty": 1,
+          "lease_id": null,
+          "invoice_id": 501,
+          "status": "open",
+          "notes": "Needs a tee in size S.",
+          "created_at": "2026-08-31T09:15:00-04:00"
+        },
+        "requested": {
+          "sku": "CC-TEE-WHITE",
+          "size": "S",
+          "qty": 1
+        },
+        "inventory": {
+          "name": "Classic Bulldog Tee",
+          "size": "S",
+          "qty": 0,
+          "location": "Aisle B"
+        },
+        "on_hand": 0,
+        "can_fill_from_stock": false,
+        "other_sizes_in_stock": [
+          {
+            "size": "L",
+            "qty": 3
+          },
+          {
+            "size": "M",
+            "qty": 5
+          },
+          {
+            "size": "XL",
+            "qty": 2
+          }
+        ],
+        "pricing": {
+          "unit_cost": 8,
+          "list_price": 28
+        },
+        "linked_invoice": {
+          "id": 501,
+          "amount": 840,
+          "due_date": "2026-08-28",
+          "status": "open",
+          "description": "Rush reprint CC-TEE-WHITE S",
+          "vendor_id": 1,
+          "vendor_name": "Bulldog Print Co",
+          "vendor_specialty": "apparel reprint",
+          "vendor_lead_days": 5,
+          "days_overdue": 3
+        }
+      },
+      "db_verification": {
+        "passed": true,
+        "checks": [
+          "tickets id=101: Tauhid Zaman, CC-TEE-WHITE, size S, qty 1, invoice_id 501, status open \u2014 matches",
+          "inventory CC-TEE-WHITE/S qty=0 (Aisle B) -> can_fill_from_stock=false \u2014 matches",
+          "inventory CC-TEE-WHITE other sizes M=5, L=3, XL=2 \u2014 matches",
+          "pricing CC-TEE-WHITE unit_cost 8.00 / list_price 28.00 \u2014 matches",
+          "invoices id=501: vendor 1, $840.00, due 2026-08-28, open, 'Rush reprint CC-TEE-WHITE S' \u2014 matches",
+          "vendors id=1 Bulldog Print Co, apparel reprint, lead_days 5 \u2014 matches",
+          "days_overdue = desk.date_today 2026-08-31 - 2026-08-28 = 3 \u2014 matches"
+        ]
+      }
+    },
+    {
+      "test_id": 2,
+      "tool": "verify_rent_notice",
+      "test_prompt": "Ticket 102: verify the rent notice from Elm City Properties against the lease, and check whether checking can cover rent plus open invoices.",
+      "arguments": {
+        "ticket_id": 102
+      },
+      "actual_output": {
+        "desk_date": "2026-08-31",
+        "ticket": {
+          "id": 102,
+          "type": "rent_notice",
+          "requester": "Elm City Properties",
+          "subject": "Rent due",
+          "sku": null,
+          "size": null,
+          "qty": null,
+          "lease_id": 1,
+          "invoice_id": null,
+          "status": "open",
+          "notes": "Email: shop rent due in 2 days.",
+          "created_at": "2026-08-31T11:05:00-04:00"
+        },
+        "lease": {
+          "id": 1,
+          "space_name": "Chapel Street shop",
+          "landlord": "Elm City Properties",
+          "monthly_rent": 2400,
+          "next_due": "2026-09-02",
+          "notes": null
+        },
+        "requester_matches_landlord": true,
+        "days_until_due": 2,
+        "cash_accounts": [
+          {
+            "name": "checking",
+            "balance": 3400,
+            "date": "2026-08-31"
+          }
+        ],
+        "total_cash": 3400,
+        "cash_after_rent": 1000,
+        "can_cover_rent": true,
+        "open_invoices": [
+          {
+            "id": 501,
+            "amount": 840,
+            "due_date": "2026-08-28",
+            "description": "Rush reprint CC-TEE-WHITE S",
+            "vendor_name": "Bulldog Print Co"
+          }
+        ],
+        "cash_after_rent_and_open_invoices": 160
+      },
+      "db_verification": {
+        "passed": true,
+        "checks": [
+          "tickets id=102: requester Elm City Properties, lease_id 1 \u2014 matches",
+          "leases id=1 landlord Elm City Properties -> requester_matches_landlord=true \u2014 matches",
+          "leases id=1 monthly_rent 2400.00, next_due 2026-09-02, notes NULL \u2014 matches",
+          "days_until_due = 2026-09-02 - desk.date_today 2026-08-31 = 2 \u2014 matches",
+          "cash_accounts checking balance 3400.00 as of 2026-08-31 (only account) \u2014 matches",
+          "cash_after_rent = 3400 - 2400 = 1000 \u2014 matches",
+          "invoices status=open: only id 501, $840 (Bulldog Print Co) \u2014 matches",
+          "cash_after_rent_and_open_invoices = 1000 - 840 = 160 \u2014 matches"
+        ]
+      }
+    },
+    {
+      "test_id": 3,
+      "tool": "evaluate_bulk_discount",
+      "test_prompt": "Ticket 103: the Yale AI Club wants 20 size-M Basic Hoodies with a 15% bulk discount. Check stock and whether 15% keeps us above cost.",
+      "arguments": {
+        "ticket_id": 103,
+        "discount_pct": 15
+      },
+      "actual_output": {
+        "ticket": {
+          "id": 103,
+          "type": "price_override",
+          "requester": "Yale AI Club",
+          "subject": "Bulk hoodie discount",
+          "sku": "CC-HOOD-NAVY",
+          "size": "M",
+          "qty": 20,
+          "lease_id": null,
+          "invoice_id": null,
+          "status": "open",
+          "notes": "Student org wants 20 hoodies, size M, asking for a bulk discount.",
+          "created_at": "2026-08-31T16:55:00-04:00"
+        },
+        "requested": {
+          "sku": "CC-HOOD-NAVY",
+          "size": "M",
+          "qty": 20
+        },
+        "inventory": {
+          "name": "Basic Hoodie Big Yale",
+          "size": "M",
+          "qty": 8,
+          "location": "Aisle A"
+        },
+        "on_hand": 8,
+        "shortfall": 12,
+        "all_sizes": [
+          {
+            "size": "L",
+            "qty": 14
+          },
+          {
+            "size": "M",
+            "qty": 8
+          },
+          {
+            "size": "S",
+            "qty": 4
+          },
+          {
+            "size": "XL",
+            "qty": 6
+          }
+        ],
+        "pricing": {
+          "unit_cost": 22,
+          "list_price": 58
+        },
+        "total_at_list": 1160,
+        "total_at_cost": 440,
+        "max_discount_pct_before_loss": 62.07,
+        "vendors": [
+          {
+            "id": 1,
+            "name": "Bulldog Print Co",
+            "specialty": "apparel reprint",
+            "lead_days": 5
+          },
+          {
+            "id": 2,
+            "name": "Elm City Gifts",
+            "specialty": "mugs and small goods",
+            "lead_days": 3
+          },
+          {
+            "id": 3,
+            "name": "QuickShip CT",
+            "specialty": "local courier",
+            "lead_days": 1
+          }
+        ],
+        "proposed": {
+          "discount_pct": 15,
+          "unit_price": 49.3,
+          "total": 986,
+          "margin_per_unit": 27.3,
+          "total_margin": 546,
+          "below_cost": false
+        }
+      },
+      "db_verification": {
+        "passed": true,
+        "checks": [
+          "tickets id=103: Yale AI Club, CC-HOOD-NAVY, size M, qty 20 \u2014 matches",
+          "inventory CC-HOOD-NAVY/M qty=8 -> shortfall = 20 - 8 = 12 \u2014 matches",
+          "inventory CC-HOOD-NAVY all sizes S=4, M=8, L=14, XL=6 \u2014 matches",
+          "pricing CC-HOOD-NAVY unit_cost 22.00 / list_price 58.00 \u2014 matches",
+          "total_at_list = 20 x 58 = 1160; total_at_cost = 20 x 22 = 440 \u2014 matches",
+          "max_discount_pct_before_loss = (58-22)/58 = 62.07% \u2014 matches",
+          "15% off: unit 49.30, total 986.00, margin/unit 27.30, total margin 546.00, below_cost=false \u2014 matches",
+          "vendors table (3 rows: Bulldog Print Co 5d, Elm City Gifts 3d, QuickShip CT 1d) \u2014 matches"
+        ]
+      }
+    }
+  ]
+}
