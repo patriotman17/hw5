@@ -58,9 +58,8 @@ At the end, briefly summarize the three open tickets and which tables appear rel
 alright bro, now for problem 3 we we will need to build the MCP server
 
 Create:
-- mcp_server/server.py
-- mcp_server/README.md
-```
+ mcp_server/server.py
+mcp_server/README.md
 Use FastMCP and connect only to @HW 5/data/campus_customs_new.db 
 
 DO NOT use or modify the original @HW 5/data/campus_customs.db .
